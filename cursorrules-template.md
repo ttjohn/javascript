@@ -1,0 +1,275 @@
+# Universal Cursor Rules Template
+# Copy this file as `.cursorrules` to any repository for consistent AI assistance
+
+## Project Context Template
+# CUSTOMIZE THIS SECTION FOR EACH REPOSITORY
+# You are working on [PROJECT_TYPE] with [ARCHITECTURE_PATTERN]. This [SERVICE_TYPE] provides [MAIN_FUNCTIONALITY] with [KEY_FEATURES].
+
+## Core Architecture Principles
+
+### Dependency Injection & Interface Design
+- ALWAYS abstract external dependencies through interfaces
+- Validate interface implementations at runtime
+- Provide sensible defaults for optional dependencies
+- Use factory patterns for complex object creation
+- Follow naming pattern: *Interface, *Factory, *Implementation
+
+### Modern JavaScript Standards (Celigo Style Guide)
+- ALWAYS use `const` for variables that don't change, `let` for variables that do
+- NEVER use `var` - it's prohibited
+- Use arrow functions for callbacks and short utilities
+- Use template literals instead of string concatenation
+- Use destructuring for object and array assignments
+- Use default parameters instead of || fallbacks
+- Use rest/spread operators instead of `arguments` object
+
+## Code Quality Standards
+
+### JavaScript Style
+- ALWAYS start files with 'use strict'
+- Use async/await instead of promise chains
+- Prefer pure functions that don't mutate inputs
+- Use descriptive function names that explain what they do
+- Keep functions small and focused on single responsibility
+- Use object shorthand when possible: `{ name, age }`
+
+### Error Handling
+- Wrap all async operations in try-catch blocks
+- Provide descriptive, actionable error messages
+- Use Error objects, not strings: `throw new Error('message')`
+- Log errors with context and stack traces
+- Always handle promise rejections
+- NEVER swallow errors silently
+
+### Security Requirements
+- NEVER commit secrets or API keys
+- Validate ALL user inputs before processing
+- Sanitize data before database operations or UI display
+- Use parameterized queries for database operations
+- Implement user-based data isolation patterns
+- Use HTTPS for all external requests
+
+## Testing Requirements
+
+### Test Structure
+- Group tests by functionality in describe blocks
+- Use beforeEach/afterEach for proper test isolation
+- Create helper functions for common test operations
+- Use descriptive test names that explain the scenario
+
+### Test Coverage
+- EVERY public method MUST have unit tests
+- Test both success and error conditions
+- Test edge cases and boundary conditions
+- Maintain >90% test coverage
+- Mock all external dependencies properly
+- Write regression tests for every bug fix
+
+### Test Patterns
+```javascript
+describe('Feature Tests', () => {
+  let service, mocks, testUser
+
+  beforeEach(async () => {
+    mocks = createMockDependencies()
+    service = new Service(mocks)
+    testUser = createTestUser()
+  })
+
+  test('should handle success case', async () => {
+    // Implementation
+  })
+
+  test('should handle error case', async () => {
+    // Implementation
+  })
+})
+```
+
+## Documentation Standards
+
+### API Documentation Requirements
+- ALL REST endpoints MUST have OpenAPI/Swagger documentation
+- Create YAML files for API specifications (openapi.yaml, swagger.yaml)
+- Document request/response schemas with examples
+- Include error response codes and messages
+- Document authentication and authorization requirements
+- Update API documentation for any endpoint changes
+
+### Code Comment Style
+```javascript
+// Use inline comments for complex business logic
+// JSDoc only required for core utility functions and interfaces
+/**
+ * Core utility function - validate user permissions
+ * @param {String} userId - User identifier
+ * @param {String} resource - Resource being accessed
+ * @returns {Boolean} - True if user has permission
+ */
+```
+
+```yaml
+# openapi.yaml example
+openapi: 3.0.0
+info:
+  title: Service API
+  version: 1.0.0
+paths:
+  /api/users:
+    post:
+      summary: Create new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+            example:
+              name: "John Doe"
+              email: "john@example.com"
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error
+```
+
+## Naming Conventions
+
+### Variables and Functions
+- **Variables**: camelCase (e.g., `userService`, `maxRetries`, `clientData`)
+- **Constants**: camelCase for local, SCREAMING_SNAKE_CASE for module-level
+- **Functions**: camelCase descriptive names (e.g., `processPayment`, `validateUser`)
+- **Private Methods**: prefix with underscore (e.g., `_validateInput`, `_createClient`)
+- **Boolean Variables**: descriptive prefixes (e.g., `isValid`, `hasPermission`, `shouldRetry`)
+- **Event Handlers**: use `on` prefix (e.g., `onSave`, `onError`, `onComplete`)
+
+### Classes and Objects
+- **Service Classes**: PascalCase with `Service` suffix (e.g., `PaymentService`, `UserService`)
+- **Interface Classes**: PascalCase with `Interface` suffix (e.g., `DatabaseInterface`, `LoggerInterface`)
+- **Implementation Classes**: PascalCase with descriptive prefix (e.g., `MongoDatabase`, `WinstonLogger`)
+- **Model Names**: PascalCase (e.g., `User`, `Order`, `Payment`)
+
+### Files and Directories
+- **Source Files**: camelCase matching main export (e.g., `userService.js`, `paymentProcessor.js`)
+- **Test Files**: camelCase with `.test.js` suffix (e.g., `userService.test.js`)
+- **Config Files**: camelCase descriptive names (e.g., `database.js`, `environment.js`)
+- **Directory Names**: camelCase (e.g., `src`, `tests`, `config`, `utils`)
+
+### Database and API Fields
+- **Database Fields**: camelCase (e.g., `userId`, `createdAt`, `lastModified`)
+- **API Endpoints**: kebab-case (e.g., `/api/user-profiles`, `/api/payment-methods`)
+- **Environment Variables**: SCREAMING_SNAKE_CASE (e.g., `DATABASE_URL`, `API_KEY`)
+- **Configuration Keys**: camelCase (e.g., `maxConnections`, `timeoutMs`)
+
+## Performance & Scalability
+
+### Optimization Guidelines
+- Use lazy loading for heavy dependencies
+- Implement proper resource cleanup
+- Use batch operations for bulk processing
+- Cache expensive computations when appropriate
+- Use connection pooling for databases
+
+### Memory Management
+- Clean up resources in teardown/cleanup
+- Avoid memory leaks in long-running processes
+- Monitor and optimize critical performance paths
+- Use event delegation for dynamic content
+- Profile performance bottlenecks
+
+## Configuration Management
+
+### Environment Support
+- Support different configs per environment
+- Validate configuration objects at startup
+- Provide comprehensive default configurations
+- Use environment variables for secrets
+- Document all configuration options
+
+### Dependency Management
+- Keep dependencies up to date
+- Run security audits regularly (npm audit, snyk)
+- Use exact versions for critical dependencies
+- Minimize dependency count when possible
+
+## Code Review Requirements
+
+### Immediate Rejection Criteria
+- Security vulnerabilities (hardcoded secrets, injection risks)
+- Missing test coverage for new functionality
+- Unhandled promise rejections or uncaught exceptions
+- Missing JSDoc for public methods
+- Breaking changes without proper versioning
+
+### Quality Gates
+- ESLint must pass without warnings
+- All tests must pass with >90% coverage
+- No critical security issues in audits
+- Performance impact must be analyzed
+- Breaking changes require major version bump
+
+## Anti-Patterns to Strictly Avoid
+- DON'T use `eval()` or `Function()` constructor
+- DON'T modify built-in prototypes
+- DON'T use global variables (except for configuration)
+- DON'T use magic numbers (use named constants)
+- DON'T use synchronous operations in async contexts
+- DON'T ignore error handling
+- DON'T hardcode environment-specific values
+
+## Development Workflow
+
+### Before Committing
+- Run tests to ensure all pass
+- Run linter to check code style
+- Run security audit
+- Update documentation for API changes
+- Add/update tests for new functionality
+
+### Pull Request Requirements
+- Include clear description of changes
+- Reference related issues or tickets
+- Include test results and coverage reports
+- Document any breaking changes
+- Follow semantic versioning
+
+## Microservice-Specific Guidelines
+
+### API Design
+- Use RESTful conventions for HTTP APIs
+- Implement proper HTTP status codes
+- Use consistent error response formats
+- Version APIs appropriately (v1, v2, etc.)
+- Document APIs with OpenAPI/Swagger
+
+### Service Communication
+- Use async messaging for non-critical operations
+- Implement circuit breakers for external services
+- Add proper timeouts and retries
+- Use correlation IDs for request tracing
+- Handle service discovery gracefully
+
+### Monitoring & Observability
+- Implement structured logging
+- Add health check endpoints
+- Use metrics for monitoring service performance
+- Implement distributed tracing
+- Set up alerts for critical errors
+
+### Deployment & Infrastructure
+- Use containerization (Docker) when appropriate
+- Implement graceful shutdown handling
+- Support rolling deployments
+- Use infrastructure as code
+- Implement proper backup strategies
+
+Remember: Prioritize security, reliability, and maintainability over quick fixes or shortcuts. This is enterprise-grade software used in production environments.
