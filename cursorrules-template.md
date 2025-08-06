@@ -108,39 +108,7 @@ describe('Feature Tests', () => {
  */
 ```
 
-```yaml
-# openapi.yaml example
-openapi: 3.0.0
-info:
-  title: Service API
-  version: 1.0.0
-paths:
-  /api/users:
-    post:
-      summary: Create new user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateUserRequest'
-            example:
-              name: "John Doe"
-              email: "john@example.com"
-      responses:
-        '201':
-          description: User created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid request data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error
-```
+
 
 ## Naming Conventions
 
